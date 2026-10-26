@@ -1,56 +1,43 @@
-# Welcome to your Expo app 👋
+# IT313 Student Roster Card Renderer
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Problem Description
 
-## Get started
+This project displays the IT313 student roster using React Native and Expo. Each student is displayed in a reusable card showing their name, course, and enrolled units. Students with a full load also receive a Full Load label.
 
-1. Install dependencies
+## Component Structure
 
-   ```bash
-   npm install
-   ```
+### StudentCard
 
-2. Start the app
+A reusable functional component that receives student information through props. It uses destructuring and conditional rendering to display the student details and Full Load label.
 
-   ```bash
+### StudentRoster
+
+The parent component stores the student array, displays the total number of students, and uses map() to render the cards. It also includes buttons to reverse the roster and test array index keys.
+
+## Concepts Used
+
+- Functional components
+- Props and destructuring
+- JSX expressions
+- Conditional rendering using &&
+- Rendering lists using map()
+- Unique keys using student IDs
+- React useState for interactive buttons
+- React Native components and StyleSheet
+
+## How to Run
+
+1. Install Node.js.
+2. Create the Expo project.
+3. Save the code in app/index.tsx.
+4. Start the project:
+
    npx expo start
-   ```
 
-In the output, you'll find options to open the app in a
+5. Open the app using Expo Go or an emulator.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Key Prop Experiment
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Use the Test Array Index Keys button and reverse the roster. Then restore student ID keys.
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Stable IDs are recommended because array indexes can cause incorrect component state or rendering behavior when items are reordered.

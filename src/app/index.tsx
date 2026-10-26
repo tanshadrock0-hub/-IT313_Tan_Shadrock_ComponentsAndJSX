@@ -1,98 +1,119 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState } from "react";
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import StudentCard from "../components/StudentCard";
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
+interface Student {
+  id: string;
+  name: string;
+  course: string;
+  units: number;
+  isFullLoad: boolean;
 }
 
-export default function HomeScreen() {
+export default function StudentRoster() {
+  const students: Student[] = [
+    {
+      id: "s1",
+      name: "Ana Cruz",
+      course: "IT313",
+      units: 21,
+      isFullLoad: true,
+    },
+    {
+      id: "s2",
+      name: "Bea Santos",
+      course: "IT313",
+      units: 15,
+      isFullLoad: false,
+    },
+    {
+      id: "s3",
+      name: "Cid Ramos",
+      course: "IT313",
+      units: 18,
+      isFullLoad: true,
+    },
+    {
+      id: "s4",
+      name: "Dex Alonzo",
+      course: "IT313",
+      units: 12,
+      isFullLoad: false,
+    },
+  ];
+
+  const [isReversed, setIsReversed] = useState(false);
+
+  const displayedStudents = isReversed ? [...students].reverse() : students;
+
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.content}>
+        <Text style={styles.title}>IT313 Student Roster</Text>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+        <Text style={styles.subtitle}>Total Students: {students.length}</Text>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setIsReversed((previous) => !previous)}
+        >
+          <Text style={styles.buttonText}>Reverse Roster</Text>
+        </TouchableOpacity>
+
+        {displayedStudents.map((student) => (
+          <StudentCard
+            key={student.id}
+            name={student.name}
+            course={student.course}
+            units={student.units}
+            isFullLoad={student.isFullLoad}
           />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+        ))}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
+    backgroundColor: "#F3F6FA",
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+  content: {
+    padding: 20,
+    paddingBottom: 35,
   },
   title: {
-    textAlign: 'center',
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#17365D",
+    textAlign: "center",
+    marginTop: 20,
   },
-  code: {
-    textTransform: 'uppercase',
+  subtitle: {
+    fontSize: 16,
+    color: "#555555",
+    textAlign: "center",
+    marginTop: 8,
+    marginBottom: 18,
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+  button: {
+    backgroundColor: "#2878B5",
+    padding: 13,
+    borderRadius: 8,
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: 15,
+    fontWeight: "bold",
   },
 });
